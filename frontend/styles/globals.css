@@ -1,0 +1,24 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, serif;
+}
+
+html {
+  --color-light-gray: rgba(0, 0, 0, 0.54);
+  --main-color: #3f51b5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  color: var(--color-light-gray);
+}

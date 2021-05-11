@@ -1,0 +1,32 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://airport-db:5432/airport
+    username: airuser
+    password: airuser
+
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/changelog.yaml
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+server:
+  port: 8081
+  tomcat:
+    max-threads: 5

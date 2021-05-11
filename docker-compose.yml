@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+
+  airport-proxy:
+    image: traefik:v2.4.2
+    container_name: airport-proxy
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --entrypoints.web.address=:80
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - airport-network
+
+  airport-app:
+    build: ./frontend/env
+    container_name: airport-app
+    tty: true
+    user: 1000:1000
+    volumes:
+      - ./frontend:/app
+    networks:
+      - airport-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.airport-app.rule=Host(`airport.local`)
+
+  airport-api:
+    build: ./backend/env
+    container_name: airport-api
+    command: gradle bootRun
+    volumes:
+      - ./backend:/app
+      - airport-api-gradle-cache:/app/.gradle:rw
+      - airport-api-build:/app/build:rw
+    networks:
+      - airport-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.airport-api.rule=Host(`api.airport.local`)
+
+  airport-db:
+    image: postgres:13.2-alpine
+    container_name: airport-db
+    environment:
+      POSTGRES_USER: airuser
+      POSTGRES_PASSWORD: airuser
+      POSTGRES_DB: airport
+    volumes:
+      - airport-db-config-data:/var/lib/postgresql/data
+      - ./log/postgres:/log/postgresql
+      - ./env/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./env/postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh:ro
+    networks:
+      - airport-network
+    ports:
+      - 5432:5432
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+
+  airport-db-admin:
+    image: adminer:4.8.0
+    container_name: airport-db-admin
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: pgsql
+      ADMINER_DEFAULT_DB_HOST: airport-db
+      ADMINER_DEFAULT_DB_NAME: airport
+    networks:
+      - airport-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.airport-db-admin.rule=Host(`db.airport.local`)
+
+networks:
+  airport-network:
+
+volumes:
+  airport-db-config-data:
+
+  airport-api-gradle-cache:
+  airport-api-build:
