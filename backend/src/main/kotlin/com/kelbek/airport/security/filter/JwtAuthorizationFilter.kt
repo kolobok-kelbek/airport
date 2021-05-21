@@ -56,7 +56,6 @@ class JwtAuthorizationFilter(
                     .setSigningKey(authCookieService.JWT_SECRET.toByteArray(Charsets.UTF_8))
                     .parseClaimsJws(token.replace(authCookieService.TOKEN_PREFIX, ""))
 
-            log.info("что-то пришло getAuthentication " + parsedToken)
             val username = parsedToken.body.subject
             val authorities = (parsedToken.body[authCookieService.TOKEN_PARAM_KEY_ROLES] as List<*>?)
                     ?.stream()

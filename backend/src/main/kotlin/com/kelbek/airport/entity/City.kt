@@ -13,7 +13,7 @@ data class City(
     @Column(unique = true, nullable = false)
     val id: Int,
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     val name: String,
 
     @ManyToOne

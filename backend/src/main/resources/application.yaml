@@ -8,18 +8,14 @@ spring:
     username: airuser
     password: airuser
 
-  liquibase:
-    enabled: false
-    change-log: classpath:db/changelog/changelog.yaml
-
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL13Dialect
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
         temp:
           use_jdbc_metadata_defaults: false
 
@@ -28,5 +24,3 @@ spring:
 
 server:
   port: 8081
-  tomcat:
-    max-threads: 5

@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.airport-api.rule=Host(`api.airport.local`)
 
   airport-db:
-    image: postgres:13.2-alpine
+    build: ./env/postgres
     container_name: airport-db
     environment:
       POSTGRES_USER: airuser
@@ -55,7 +55,7 @@ services:
       - airport-db-config-data:/var/lib/postgresql/data
       - ./log/postgres:/log/postgresql
       - ./env/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
-      - ./env/postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh:ro
+      - ./env/postgres/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
     networks:
       - airport-network
     ports:

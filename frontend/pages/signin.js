@@ -1,10 +1,26 @@
-import React from 'react';
-import {Container, FormControl, Input, InputLabel, Grid, InputAdornment, IconButton, Button, Link} from '@material-ui/core'
-import {Visibility, VisibilityOff, Person} from '@material-ui/icons';
+import React from 'react'
+import {
+    Container,
+    FormControl,
+    Input,
+    InputLabel,
+    Grid,
+    InputAdornment,
+    IconButton,
+    Button,
+    Link as UiLink
+} from '@material-ui/core'
+import {Visibility, VisibilityOff, Person} from '@material-ui/icons'
+import Link from 'next/link'
+import {useRouter} from 'next/router'
+import Logo from '../components/Logo'
 
 export default () => {
+    const router = useRouter()
+
     const TYPE_PASSWORD = 'password';
     const TYPE_TEXT = 'text';
+
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(TYPE_PASSWORD);
@@ -18,7 +34,6 @@ export default () => {
     };
 
     const handleChangeVisiblePassword = () => {
-        console.log(showPassword)
         setShowPassword(showPassword === TYPE_PASSWORD ? TYPE_TEXT : TYPE_PASSWORD)
     };
 
@@ -32,6 +47,8 @@ export default () => {
                 username: username,
                 password: password,
             }),
+        }).then(r => {
+            router.push('/')
         })
     };
 
@@ -43,12 +60,14 @@ export default () => {
                 direction="column"
                 alignItems="center"
                 justify="center"
-                style={{ minHeight: '100vh' }}
+                style={{minHeight: '100vh'}}
             >
                 <Grid container xs={12} justify="center" alignItems="center">
-                    <h1 align="center">Sign In </h1><Person fontSize="large" style={{ marginLeft: '5%', color: 'var(--main-color)' }}/>
+                    <Logo/>
+                    <h1 align="center">Sign In </h1>
+                    <Person fontSize="large" style={{marginLeft: '5%', color: 'var(--main-color)'}}/>
                 </Grid>
-                <form noValidate autoComplete="off" style={{ marginBottom: '40%' }}>
+                <form noValidate autoComplete="off" style={{marginBottom: '40%'}}>
                     <Grid container spacing={5}>
                         <Grid item xs={12}>
                             <FormControl fullWidth>
@@ -76,7 +95,9 @@ export default () => {
                             </FormControl>
                         </Grid>
                         <Grid container item xs={12} justify="space-between" alignItems="center">
-                            <Link href={'signup'}>Sign Up</Link>
+                            <UiLink>
+                                <Link href={'signup'}>Sign Up</Link>
+                            </UiLink>
                             <Button variant="contained" color="primary" onClick={sendRequest}>Sign in</Button>
                         </Grid>
                     </Grid>

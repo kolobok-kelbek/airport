@@ -1,5 +1,7 @@
 package com.kelbek.airport.entity
 
+import org.locationtech.jts.geom.Point
+import java.io.Serializable
 import java.util.*
 import javax.persistence.*
 
@@ -11,22 +13,19 @@ data class Airport(
         @Column(name = "id", length = 16, unique = true, nullable = false)
         val id: UUID = UUID.randomUUID(),
 
-        @Column(unique = true, nullable = false)
+        @Column(nullable = false)
         val name: String,
 
-        @Column
-        val latitude: Float,
-
-        @Column
-        val longitude: Float,
-
         @Column(length = 4, unique = true, nullable = false)
-        val iataCode: Float,
+        val iataCode: String,
 
-        @Column(length = 4, unique = true, nullable = false)
-        val icaoCode: Float,
+        @Column(columnDefinition = "geometry")
+        val coordinate: Point,
+
+        @Column(length = 4)
+        val icaoCode: String?,
 
         @ManyToOne
-        @JoinColumn(name="city_id", nullable = false)
+        @JoinColumn(name = "city_id", nullable = false)
         val city: City,
-)
+) : Serializable
