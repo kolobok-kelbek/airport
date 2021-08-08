@@ -12,9 +12,7 @@ const sizes = new Map([
 ])
 
 export default (props) => {
-    console.log({props})
-    console.log(sizes.get(props ?? SIZE_MIDDLE))
     return  <Link href={'/'}>
-        <img style={{marginRight: '15px', cursor: "pointer"}} width={sizes.get(props.size ?? SIZE_MIDDLE)} src="/i/logo_transparent.png" alt="Logo"/>
+        <img style={{marginRight: '15px', cursor: "pointer"}} width={sizes.get(props.size ?? SIZE_MIDDLE)} src="/i/logo_airplain_transparent.png" alt="Logo"/>
     </Link>
 }

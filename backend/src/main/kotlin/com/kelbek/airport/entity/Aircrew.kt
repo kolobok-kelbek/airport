@@ -8,9 +8,9 @@ import javax.persistence.*
 ])
 data class Aircrew(
         @Id
-        @Column(name = "id", length = 16, unique = true, nullable = false)
+        @Column(name = "id", length = 16, unique = true, nullable = false, columnDefinition = "UUID")
         val id: UUID = UUID.randomUUID(),
 
-        @OneToMany(mappedBy = "aircrew")
+        @OneToMany(mappedBy = "aircrew", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
         private val employees: Set<Employee>,
 )

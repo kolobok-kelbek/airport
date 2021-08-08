@@ -8,23 +8,24 @@ import javax.persistence.*
 ])
 data class Ticket(
         @Id
-        @Column(name = "id", length = 16, unique = true, nullable = false)
+        @Column(name = "id", length = 16, unique = true, nullable = false, columnDefinition = "UUID")
         val id: UUID = UUID.randomUUID(),
-
-        @Column(length = 4, unique = true, nullable = false)
-        val seat: String,
 
         @Column(nullable = false)
         val hasBag: Boolean,
 
-        @ManyToOne
-        @JoinColumn(name="passenger_id", nullable = false)
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="passenger_id", columnDefinition = "UUID", nullable = false)
         val passenger: Passenger,
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="seat_id", columnDefinition = "UUID", nullable = false)
+        val seat: Seat,
+
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name="flight_id", nullable = false)
         val flight: Flight,
 
-        @Column(nullable = false)
+        @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         val createAt: Date = Date(),
 )

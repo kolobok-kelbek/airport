@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import java.net.URLDecoder
-import java.net.URLEncoder
 import java.util.stream.Collectors
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -40,7 +39,6 @@ class JwtAuthorizationFilter(
 
     private fun getAuthentication(request: HttpServletRequest): UsernamePasswordAuthenticationToken? {
         val encodeToken: String? = authCookieService.getValue(request, authCookieService.TOKEN_COOKIE)
-
         if (encodeToken == null || encodeToken.isEmpty()) {
             return null
         }

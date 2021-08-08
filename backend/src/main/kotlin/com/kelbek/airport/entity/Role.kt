@@ -9,16 +9,12 @@ import javax.persistence.*
 data class Role(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(unique = true, nullable = false)
+        @Column(name = "id", unique = true, nullable = false)
         val id: Int,
 
         @Column(nullable = false, unique = true)
-        val  name: String,
+        val name: String,
 
-        @ManyToOne
-        @JoinColumn(name="user_id", nullable = false)
-        val user: User,
-
-        @Column(nullable = false)
+        @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         val createAt: Date = Date(),
 )

@@ -1,18 +1,13 @@
 package com.kelbek.airport.web
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.util.WebUtils
-import java.net.URLEncoder
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Service
 class AuthCookieService {
-    private val log: Logger = LoggerFactory.getLogger(this::class.java)
-
     final val JWT_SECRET = "r4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+KbPeShVmYq3t6w9z\$C&F)J@McQfTj"
 
     final val TOKEN_COOKIE = "Authorization"
@@ -29,7 +24,7 @@ class AuthCookieService {
 
     fun create(httpServletResponse: HttpServletResponse, name: String?, value: String?) {
         val cookie = Cookie(name, value)
-        cookie.isHttpOnly = true
+//        cookie.isHttpOnly = true
         cookie.maxAge = TOKEN_LIFETIME_SECOND
         cookie.domain = "airport.local"
         cookie.path = "/"
@@ -39,7 +34,7 @@ class AuthCookieService {
     fun clear(httpServletResponse: HttpServletResponse, name: String?) {
         val cookie = Cookie(name, null)
         cookie.path = "/"
-        cookie.isHttpOnly = true
+//        cookie.isHttpOnly = true
         cookie.maxAge = 0
         cookie.domain = "airport.local"
         httpServletResponse.addCookie(cookie)

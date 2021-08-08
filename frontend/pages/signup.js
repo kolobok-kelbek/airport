@@ -1,22 +1,22 @@
 import React from 'react';
 import {
+    Button,
     Container,
     FormControl,
-    Input,
-    InputLabel,
     Grid,
-    InputAdornment,
     IconButton,
-    Button,
+    Input,
+    InputAdornment,
+    InputLabel,
     Link as UiLink
 } from '@material-ui/core'
-import {Visibility, VisibilityOff, PersonAdd} from '@material-ui/icons'
+import {PersonAdd, Visibility, VisibilityOff} from '@material-ui/icons'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
 import Logo from '../components/Logo'
+import SignGuard from "../services/SignGuard";
 
 export default function Home() {
-    const router = useRouter()
+    SignGuard()
 
     const TYPE_PASSWORD = 'password';
     const TYPE_TEXT = 'text';

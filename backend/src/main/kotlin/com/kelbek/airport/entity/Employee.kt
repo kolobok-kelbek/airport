@@ -8,7 +8,7 @@ import javax.persistence.*
 ])
 data class Employee(
         @Id
-        @Column(name = "id", length = 16, unique = true, nullable = false)
+        @Column(name = "id", length = 16, unique = true, nullable = false, columnDefinition = "UUID")
         val id: UUID = UUID.randomUUID(),
 
         @Column(unique = true, nullable = false)
@@ -18,13 +18,13 @@ data class Employee(
         @JoinColumn(name = "user_id", referencedColumnName = "id")
         private val user: User,
 
-        @ManyToOne
-        @JoinColumn(name="aircrew_id")
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="aircrew_id", columnDefinition = "UUID")
         val aircrew: Aircrew,
 
-        @Column(nullable = false)
+        @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         val createAt: Date = Date(),
 
-        @Column(nullable = false)
+        @Column(nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
         val updateAt: Date = Date(),
 )

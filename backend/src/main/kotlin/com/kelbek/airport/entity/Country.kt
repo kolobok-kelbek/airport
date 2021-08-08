@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Country(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
     @Column(unique = true, nullable = false)
@@ -18,6 +18,6 @@ data class Country(
     @Column(length = 4, unique = true, nullable = false)
     val code: String,
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     private val cities: Set<City>,
 )

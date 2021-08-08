@@ -10,8 +10,9 @@ import javax.persistence.*
 ])
 data class Airport(
         @Id
-        @Column(name = "id", length = 16, unique = true, nullable = false)
+        @Column(name = "id", length = 16, unique = true, nullable = false, columnDefinition = "UUID")
         val id: UUID = UUID.randomUUID(),
+
 
         @Column(nullable = false)
         val name: String,
@@ -19,13 +20,13 @@ data class Airport(
         @Column(length = 4, unique = true, nullable = false)
         val iataCode: String,
 
-        @Column(columnDefinition = "geometry")
+        @Column(columnDefinition = "geography(POINT)")
         val coordinate: Point,
 
         @Column(length = 4)
         val icaoCode: String?,
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "city_id", nullable = false)
         val city: City,
 ) : Serializable

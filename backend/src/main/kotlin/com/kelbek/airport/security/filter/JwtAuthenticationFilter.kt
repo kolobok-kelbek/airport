@@ -22,6 +22,7 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+
 class JwtAuthenticationFilter(
     private val userRepository: UserRepository,
     private val authCookieService: AuthCookieService,
@@ -44,7 +45,7 @@ class JwtAuthenticationFilter(
 
         authCookieService.clear(response!!, authCookieService.TOKEN_COOKIE)
 
-        throw ResponseStatusException(HttpStatus.FORBIDDEN, "invalid data for authentication")
+        throw ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid data for authentication")
     }
 
     override fun successfulAuthentication(

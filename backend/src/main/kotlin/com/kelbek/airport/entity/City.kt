@@ -10,13 +10,13 @@ import javax.persistence.*
 data class City(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     val id: Int,
 
     @Column(nullable = false)
     val name: String,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="country_id", nullable = false)
     val country: Country,
 )

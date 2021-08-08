@@ -1,22 +1,28 @@
 import React from 'react'
 import {
+    Button,
     Container,
     FormControl,
-    Input,
-    InputLabel,
     Grid,
-    InputAdornment,
     IconButton,
-    Button,
+    Input,
+    InputAdornment,
+    InputLabel,
     Link as UiLink
 } from '@material-ui/core'
-import {Visibility, VisibilityOff, Person} from '@material-ui/icons'
+import {Person, Visibility, VisibilityOff} from '@material-ui/icons'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
 import Logo from '../components/Logo'
+import "../http/SignIn"
+import SignIn from "../http/SignIn";
+import Utils from "../http/Utils"
+import SignGuard from "../services/SignGuard";
+import {useRouter} from "next/router";
+import routers from "../http/Routers";
 
 export default () => {
-    const router = useRouter()
+    SignGuard()
+    const router = useRouter();
 
     const TYPE_PASSWORD = 'password';
     const TYPE_TEXT = 'text';
@@ -38,17 +44,10 @@ export default () => {
     };
 
     const sendRequest = () => {
-        fetch('http://api.airport.local/auth/signin', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            }),
-        }).then(r => {
-            router.push('/')
+        SignIn(username, password, response => {
+            if (Utils.isOk(response)) {
+                router.push(routers.HOME)
+            }
         })
     };
 

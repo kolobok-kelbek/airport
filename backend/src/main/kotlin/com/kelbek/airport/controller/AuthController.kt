@@ -17,7 +17,7 @@ typealias UserData = com.kelbek.airport.model.data.User
 @RequestMapping(value = ["/auth"])
 class AuthController(
     private val userRepository: UserRepository,
-    private val userRegistrar: UserRegistrar,
+    private val userRegistrar: UserRegistrar
 ) {
     @PostMapping("/signup")
     fun singUp(@Valid @RequestBody signUpCommand: SignUp): UserData {
